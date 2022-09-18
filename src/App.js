@@ -1,21 +1,26 @@
 import './App.css';
 import React,{useState} from 'react'
-// import React from "react";
-// import {
-//   BrowserRouter as Router,
-//   Routes,
-//   Route,
-//   Link
-// } from "react-router-dom";
+import {
+  BrowserRouter as Router,
+  Routes,
+  Route
+} from "react-router-dom";
 
 
-// import About from './components/About';
+import About from './components/About';
 import Navbar from './components/Navbar';
 import Alert from './components/Alert';
 import TextForm from './components/TextForm';
 
 
+
 function App() {
+
+const [about,updateAbout]=useState({
+  backgroundColor:'white',
+  color:'black'
+})
+
   const[mode,setMode]=useState("light");   //whether dark mode is enabled or not
   const[text,setText]=useState({
     color:"black"
@@ -53,22 +58,36 @@ const toggleBgBlue = ()=>{
 }
 
   const toggleMode =()=>{
+    setText({color:"black"});
     if(mode==="light"){
+updateAbout({
+  backgroundColor:"#303438",
+  color:'white',
+  border:'2px solid white'
+})
+
       setMode("dark");
       document.body.style.backgroundColor="#212529ed";
       setText({color:"white"});
 
       showAlert("Dark Mode Has Been Enabled","success");
 
-      document.title="Dark Mode Enabled";
+      // document.title="Dark Mode Enabled";
     }
     else{
+    setText({color:"white"});
+
+      updateAbout({
+        backgroundColor:"white",
+        color:'black'
+      })
+
       setMode("light");
       document.body.style.backgroundColor="white";
       setText({color:"black"});
 
       showAlert("Light Mode Has Been Enabled","success");
-      document.title="TextUtils - Home";
+      // document.title="TextUtils - Home";
     }
   }
   
@@ -77,7 +96,7 @@ const toggleBgBlue = ()=>{
 {/* 
 <Router>
   <Routes>
-    <Route path="/" element={<About/>}/>
+    // <Route path="/" element={<About/>}/>
      
   </Routes>
 </Router> */}
@@ -96,17 +115,18 @@ const toggleBgBlue = ()=>{
 
 <About/>  */}
 
-{/* <Router> */}
- <Navbar title="textUtils" mode={mode} toggleMode={toggleMode}  toggleBgBlue={toggleBgBlue} />
-<TextForm heading="Enter the text to analyze" text={text}/>
+<Router>
+ <Navbar title="textUtils" mode={mode} toggleMode={toggleMode} text={text} toggleBgBlue={toggleBgBlue} />
+{/* <TextForm heading="Enter the text to analyze" text={text}/> */}
 <Alert alert={alert}/>
+{/* <TextForm heading="Enter the text to analyze" text={text}/> */}
 
-  {/* <Routes> */}
-    {/* <Route path="/" element={<TextForm heading="Enter the text to analyze" text={text}/>}/> */}
-    {/* <Route path="/about" element={<About/>}/> */}
+   <Routes>
+    <Route path="/" element={<TextForm heading="Enter the text to analyze" text={text}/>}/>
+    <Route path="/about" element={<About about={about}/>} />
      
-  {/* </Routes> */}
-{/* </Router> */}
+  </Routes>
+</Router>
 
 
 <div className="container">
